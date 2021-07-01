@@ -1,4 +1,4 @@
-const {SILO} = require('./constants');
+const {SILO} = require('../utils/constants')
 
 /**
  * Create a new silo

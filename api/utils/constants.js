@@ -1,5 +1,3 @@
-const UTILS = require('./utils');
-
 const SAWNILL = {
     YIELD_FACTOR: 1.3,
     COST_FACTOR: 1.4,

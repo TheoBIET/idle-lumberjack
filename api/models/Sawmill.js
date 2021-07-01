@@ -1,4 +1,4 @@
-const {SAWNILL} = require('./constants')
+const {SAWNILL} = require('../utils/constants')
 
 /**
  * Create a new sawmill

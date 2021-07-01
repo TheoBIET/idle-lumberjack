@@ -1,24 +1,27 @@
 require('dotenv').config();
 
-
 const express = require('express');
 const app = express();
 const session = require('express-session');
 const router = require('./api/router');
 const PORT = process.env.PORT || 3003;
 
-app.use(express.static('frontend'));
+app
+    // We display the frontend on /
+    .use('/', express.static('frontend'))
 
-// on va utiliser la session d'un joueur pour sauvegarder sa progression
-app.use(session({
-    resave: false,
-    saveUninitialized: false,
-    secret: 'odle'
-}));
+    // We make calls to the API and and give the files such as the images on the URL /api
+    .use('/api', express.static('api/public'))
 
-// et puisqu'on utilise les sessions (et donc les cookies), la communication front <> API va être un peu plus complexe
-// ajouter ici un moyen pour le client d'être disponible sur le même domaine que l'API
+    // We will use cookies to store data about the current user, useful for the authentication system
+    // This will also be used to store information about the current game in order to write to the database only when the user performs a particular action like passing a level
+    .use(session({
+        resave: true,
+        saveUninitialized: true,
+        secret: process.env.SESSION_SECRET
+    }))
 
-app.use(router);
+
+    .use(router)
 
 app.listen(PORT, () => console.log(`o\'dle started at http://localhost:${PORT}`));
