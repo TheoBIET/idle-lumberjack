@@ -1,4 +1,4 @@
-const FUNCTIONS = require('../utils/functions');
+const db = require('../utils/functions');
 const mongoose = require('../utils/mongoose');
 
 mongoose.init();
@@ -10,7 +10,8 @@ const user = {
 }
 
 const run = async () => {
-    await FUNCTIONS.createUser(user)
+    await db.createUser(user)
+    console.log(await db.getAllUsers())
 }
 
 run()

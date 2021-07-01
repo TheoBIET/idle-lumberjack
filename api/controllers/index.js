@@ -1,4 +1,4 @@
 module.exports = {
-    mainController: require('./mainController'),
+    userController: require('./userController'),
     gameController: require('./gameController'),
 }

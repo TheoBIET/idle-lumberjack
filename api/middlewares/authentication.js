@@ -7,11 +7,14 @@ const authChecker = (username, password) => {
 }
 
 const authenticationMiddleware = async (req, res, next) => {
-    if(authChecker()) {
-        console.log('ok');
+    console.log('Authentication Started');
+    console.log(req)
+    if(authChecker('customuser', 'customdddpassword')) {
+        console.log('Authentication Success');
     } else {
-        res.status(401).send();
+        console.log('Authentication Failed');
+        res.status(202)
     }
 }
 
-module.exports = authenticationMiddleware;
+module.exports = authenticationMiddleware, authChecker;

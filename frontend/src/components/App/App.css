@@ -1,0 +1,67 @@
+nav {
+  height: 5vh;
+}
+
+main {
+  display: flex;
+  justify-content: space-around;
+  height: 93vh;
+  align-items: center;
+}
+
+main > *{
+  max-width: 20%;
+  height: 80%;
+}
+
+#clickable-zone {
+  min-width: 50%;
+}
+
+#clickable-zone .card {
+  background: url('../../assets/background.jpg') center center/cover;
+}
+
+#clickable-zone .card img{
+  width: 40%;
+}
+
+#clickable-zone .card img:hover{
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+#clickable-zone .card img:active{
+  transform: scale(0.98);
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.align-center {
+  align-items: center;
+  justify-content: space-around;
+}
+
+.full-width > * {
+  width: 100%;
+}
+
+.full-height {
+  min-height: 100%;
+}
+
+.button {
+  margin: .2em;
+}
+
+form:focus + label,
+form:not(:flaceholder-shown) + label{
+    transform:translateY(-2.5em) scale(.8);
+}

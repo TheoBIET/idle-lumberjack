@@ -1,14 +1,27 @@
 const router = require('express').Router();
 
 const{
-    mainController,
-    gameController
+    gameController,
+    userController
 } = require('./controllers');
 
 router
-    .use(gameController.initGame)
-    .get('/api/status', mainController.getStatus)
-    .get('/api/sawmill/upgrade', gameController.upgradeSawmill)
-    .get('/api/silo/upgrade', gameController.upgradeSilo)
+    // Allows to authenticate to the API
+    .post('/api/login', userController.handleLogin)
+
+    // Create a user on database
+    .post('/api/signup', userController.handleSignup)
+
+    // Retrieve information from a user
+    .get('/api/:username/informations', userController.getInformations)
+
+    // Upgrade the sawmill
+    .post('/api/sawmill/upgrade', gameController.upgradeSawmill)
+
+    // Upgrade the silo
+    .post('/api/silo/upgrade', gameController.upgradeSilo)
+
+    // Save the new user's data
+    .post('/api/:username/update', gameController.updateInformations)
 
 module.exports = router;
