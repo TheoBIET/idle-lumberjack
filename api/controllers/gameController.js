@@ -1,8 +1,7 @@
-const Game = require('../models/Game');
 const Sawmill = require('../models/Sawmill');
 const Silo = require('../models/Silo');
 
-const GameController = {
+const gameController = {
     status: (request, response) => {
         const { game } = request.session;
 
@@ -43,4 +42,4 @@ const GameController = {
     }
 };
 
-module.exports = GameController;
+module.exports = gameController;

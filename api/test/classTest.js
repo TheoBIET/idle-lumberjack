@@ -1,4 +1,4 @@
-const Game = require('./models/Game');
+const Game = require('../models/Game');
 const mongose = require('mongoose');
 
 const newGame = new Game();

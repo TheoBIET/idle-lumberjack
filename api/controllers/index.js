@@ -1,3 +1,4 @@
 module.exports = {
-    GameController: require('./GameController')
+    mainController: require('./mainController'),
+    gameController: require('./gameController'),
 }

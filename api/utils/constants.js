@@ -1,4 +1,4 @@
-const SAWNILL = {
+const SAWMILL = {
     YIELD_FACTOR: 1.3,
     COST_FACTOR: 1.4,
     COST: 4,
@@ -17,14 +17,14 @@ const SILO = {
 const GAME = {
     stock: 0,
     sawmill: {
-        level: SAWNILL.LEVEL,
-        yield: SAWNILL.YIELD,
-        cost: SAWNILL.COST
+        level: SAWMILL.LEVEL,
+        yield: SAWMILL.YIELD,
+        cost: SAWMILL.COST
     },
     silo: {
-        level: SAWNILL.LEVEL,
-        capacity: SAWNILL.CAPACITY,
-        cost: SAWNILL.COST
+        level: SILO.LEVEL,
+        capacity: SILO.CAPACITY,
+        cost: SILO.COST
     },
     lastUpdate: null
 }
@@ -32,5 +32,5 @@ const GAME = {
 module.exports = {
     GAME,
     SILO,
-    SAWNILL
+    SAWMILL
 };

@@ -1,13 +1,14 @@
 const router = require('express').Router();
 
 const{
-    GameController
-} = require('./controllers/index');
+    mainController,
+    gameController
+} = require('./controllers');
 
 router
-    .use(GameController.initGame)
-    .get('/status', GameController.status)
-    .get('/sawmill/upgrade', GameController.upgradeSawmill)
-    .get('/silo/upgrade', GameController.upgradeSilo)
+    .use(gameController.initGame)
+    .get('/api/status', mainController.getStatus)
+    .get('/api/sawmill/upgrade', gameController.upgradeSawmill)
+    .get('/api/silo/upgrade', gameController.upgradeSilo)
 
 module.exports = router;

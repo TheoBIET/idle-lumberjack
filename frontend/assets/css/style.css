@@ -1,0 +1,20 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.clicker {
+    margin: 5em 0;
+    transition: .1s ease-in-out;
+}
+
+.clicker:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.clicker:active {
+    transform: scale(0.98);
+}
