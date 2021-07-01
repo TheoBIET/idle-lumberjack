@@ -1,11 +1,13 @@
-const GameController = require('./controllers/GameController');
-
 const router = require('express').Router();
 
-router.use(GameController.initGame);
+const{
+    GameController
+} = require('./controllers/index');
 
-router.get('/status', GameController.status);
-router.get('/sawmill/upgrade', GameController.upgradeSawmill);
-router.get('/silo/upgrade', GameController.upgradeSilo);
+router
+    .use(GameController.initGame)
+    .get('/status', GameController.status)
+    .get('/sawmill/upgrade', GameController.upgradeSawmill)
+    .get('/silo/upgrade', GameController.upgradeSilo)
 
 module.exports = router;

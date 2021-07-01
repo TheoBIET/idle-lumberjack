@@ -1,12 +1,9 @@
-const Silo = require('./models/Silo');
+const Game = require('./models/Game');
 
-const swm = new Silo();
-console.log(swm);
-swm.upgrade();
-console.log(swm);
-swm.upgrade();
-console.log(swm);
-swm.upgrade();
-console.log(swm);
-swm.upgrade();
-console.log(swm);
+const newGame = new Game();
+const defaultGame = new Game();
+for(let i=0; i<4; i++) {
+    newGame.silo.upgrade();
+    newGame.sawmill.upgrade();
+}
+console.log(defaultGame, newGame);

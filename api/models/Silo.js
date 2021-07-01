@@ -1,9 +1,4 @@
-const SILO_INFORMATIONS = {
-    CAPACITY_FACTOR: 1.3,
-    COST_FACTOR: 1.3,
-    COST: 15,
-    CAPACITY: 30
-}
+const {SILO} = require('./constants');
 
 /**
  * Create a new silo
@@ -13,14 +8,14 @@ const SILO_INFORMATIONS = {
 class Silo {
     constructor(level=1) {
         this.level = level;
-        this.capacity = (this.level * SILO_INFORMATIONS.CAPACITY);
-        this.cost = (this.level * SILO_INFORMATIONS.COST);
+        this.capacity = (this.level * SILO.CAPACITY);
+        this.cost = (this.level * SILO.COST);
     }
 
     upgrade() {
         this.level = this.level + 1;
-        this.capacity = (this.level * SILO_INFORMATIONS.CAPACITY);
-        this.cost = (this.level * SILO_INFORMATIONS.COST);
+        this.capacity = (this.level * SILO.CAPACITY);
+        this.cost = (this.level * SILO.COST);
     }
 }
 
