@@ -12,9 +12,6 @@ router
     // Create a user on database
     .post('/api/signup', userController.handleSignup)
 
-    // Retrieve information from a user
-    .get('/api/:username/informations', userController.getInformations)
-
     // Upgrade the sawmill
     .post('/api/sawmill/upgrade', gameController.upgradeSawmill)
 

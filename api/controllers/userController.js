@@ -6,11 +6,11 @@ const userController = {
             let data = await db.checkCredentials(req.body);
 
             if(!data) {
-                return res.status(200).send({username:false, password:false})
+                return res.status(200).send({correctUsername:false, correctPassword:false})
             }
 
             if(!data.password) {
-                return res.status(200).send({username:true, password:false})
+                return res.status(200).send({correctUsername:true, correctPassword:false})
             }
 
             data.password = null;
