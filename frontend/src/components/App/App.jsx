@@ -6,13 +6,28 @@ import Game from "../Game/Game.jsx";
 import Leaderboard from "../Leaderboard/Leaderboard.jsx";
 import Shop from "../Shop/Shop.jsx";
 import Login from "../Modals/Login.jsx";
+import Logout from "../Modals/Logout.jsx";
 
 class App extends Component {
+    constructor() {
+        super()
+        this.state = {
+            clic:0,
+            user:null,
+            isConnected:false,
+            showLoginModal:false,
+            showSignupModal:false,
+            showLogoutConfirm:false
+        }
+    }
+
+    closeModal(event) {
+        event.target.closest('.modal').classList.remove('is-active')
+    }
+
     componentDidMount() {
         document.querySelectorAll('.close-modal').forEach(el => {
-            el.addEventListener('click', () => {
-                document.querySelector('.modal.is-active').classList.remove('is-active');
-            })
+            el.addEventListener('click', this.closeModal)
         })
     }
 
@@ -24,7 +39,7 @@ class App extends Component {
     render() {
         return (
             <div id="App">
-                <Login />
+                <Logout/>
                 <Navbar />
                 <main>
                     <Leaderboard />

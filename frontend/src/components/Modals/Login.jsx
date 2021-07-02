@@ -7,10 +7,16 @@ class Login extends Component {
         this.state = {
             username: "",
             password: "",
+            wrongPassword: false,
+            wrongUsername: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    closeModal() {
+        document.querySelector('.modal.is-active').classList.remove('is-active');
     }
 
     handleChange = (event) => {
@@ -18,6 +24,12 @@ class Login extends Component {
     };
 
     async handleSubmit(event) {
+
+        this.setState({
+            wrongPassword: false,
+            wrongUsername: false
+        });
+
         event.preventDefault();
         try {
             const url = "http://localhost:3003/api/login";
@@ -34,8 +46,27 @@ class Login extends Component {
 
             axios
                 .post(url, params, config)
-                .then(() => {
-                    this.setState({ firstname: "", lastname: "", email: "" });
+                .then((response) => {
+                    if (response.status === 200) {
+                        const user = response.data;
+                        this.setState({
+                            password: ''
+                        });
+
+                        if(!user.username) {
+                            if (!user.correctUsername) {
+                                return this.setState({ wrongUsername: true });
+                            }
+    
+                            if(user.correctUsername && !user.correctPassword) {
+                                return this.setState({ wrongPassword: true });
+                            }
+                        }
+
+                        this.closeModal()
+                    }
+
+                
                 })
                 .catch((error) => {
                     throw new Error(error);
@@ -70,7 +101,11 @@ class Login extends Component {
                                 </label>
                                 <div className="control has-icons-left has-icons-right">
                                     <input
-                                        className="input"
+                                        className={
+                                            this.state.wrongUsername
+                                                ? "input is-danger"
+                                                : "input"
+                                        }
                                         type="text"
                                         id="username"
                                         name="username"
@@ -81,6 +116,20 @@ class Login extends Component {
                                     <span className="icon is-small is-left">
                                         <i className="fas fa-user"></i>
                                     </span>
+                                    {this.state.wrongUsername ? (
+                                        <>
+                                            {" "}
+                                            <span class="icon is-small is-right">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </span>
+                                            <p class="help is-danger">
+                                                Le nom d'utilisateur n'existe
+                                                pas!
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                             </div>
 
@@ -91,7 +140,11 @@ class Login extends Component {
                                 </label>
                                 <div className="control has-icons-left has-icons-right">
                                     <input
-                                        className="input"
+                                        className={
+                                            this.state.wrongPassword
+                                                ? "input is-danger"
+                                                : "input"
+                                        }
                                         type="password"
                                         id="password"
                                         name="password"
@@ -102,9 +155,21 @@ class Login extends Component {
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
                                     </span>
+                                    {this.state.wrongPassword ? (
+                                        <>
+                                            {" "}
+                                            <span class="icon is-small is-right">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </span>
+                                            <p class="help is-danger">
+                                                Le mot de passe n'est pas correct!
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </div>
                             </div>
-
                         </section>
                         <footer class="modal-card-foot">
                             <button
