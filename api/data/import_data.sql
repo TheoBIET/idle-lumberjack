@@ -1,5 +1,5 @@
 INSERT INTO "user"("username", "password") VALUES
-('davdav', 'davdav');
+('davdav', '$2b$10$8Rg8nYApCkvclK2ZU32em.lfDMDvGr6PBu38i7/b3K/bCNixYis3K');
 
 INSERT INTO "building"("name", "cost_factor", "upgrade_factor", "default_cost", "default_value",
 "is_storage_building") VALUES 

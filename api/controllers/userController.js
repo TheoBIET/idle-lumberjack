@@ -83,6 +83,56 @@ const userController = {
             message: 'The user has successfully registered',
             isRegistered: true
         });
+    },
+
+    getUserStatus: async (req, res) => {
+        const username = req.params.username;
+        const userIsFound = await User.findOne({
+            where: {
+                username: username
+            },
+            include: ['buildings']
+        });
+
+        if(!userIsFound) {
+            res.send('The username isn\'t correct');
+        }
+
+        // delete the user's password hash
+        delete userIsFound.password;
+
+        return res.send(userIsFound);
+    },
+
+    saveUserStatus: async (req, res) => {
+        const username = req.params.username;
+        const userIsFound = await User.findOne({username: username});
+
+        if(!userIsFound) {
+            res.send('The username isn\'t correct');
+        }
+
+        const newInformations = req.body;
+        
+        await userIsFound.update({
+            stock: newInformations.stock,
+            number_of_clics: newInformations.number_of_clics,
+            clic_dps: newInformations.clic_dps,
+            building_dps: newInformations.building_dps,
+        });
+
+        res.status(200).send({message: 'Updated successfully'});
+    },
+
+    getLeaderboard: async (req, res) => {
+        const leaderboard = await User.findAll({
+            limit: 10,
+            order: ['number_of_clics']
+        });
+
+        console.log(leaderboard);
+
+        res.send(leaderboard);
     }
 }
 

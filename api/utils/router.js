@@ -19,15 +19,15 @@ router
     .post('/api/:username/save', userController.saveUserStatus)
 
     // Get current leaderboard
-    .get('/api/leaderboard', gameController.getBuildingList)
+    .get('/api/leaderboard', userController.getLeaderboard)
 
     // Get all buildings list
     .get('/api/building', gameController.getBuildingList)
 
     // Buy building
-    .post('/api/:username/:building/buy', gameController.buyBuilding)
+    .get('/api/:username/:buildingId/buy', gameController.buyBuilding)
 
     // Upgrade building
-    .post('/api/:username/:building/upgrade', gameController.upgradeBuilding)
+    .get('/api/:username/:buildingId/upgrade', gameController.upgradeBuilding)
 
 module.exports = router;
