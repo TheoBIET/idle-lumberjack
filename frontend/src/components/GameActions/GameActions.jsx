@@ -2,6 +2,7 @@ import axios from "axios";
 import { Component } from "react";
 import Shop from "./components/Shop.jsx";
 import Statistics from './components/Statistics.jsx';
+import Stock from "./components/Stock.jsx";
 
 class GameActions extends Component {
     constructor(props) {
@@ -26,9 +27,10 @@ class GameActions extends Component {
     render() {
         console.log(this.props.user);
         return (
-            <section id="game-actions" class="flex column align-center full-width">
+            <section id="game-actions" class="flex">
                 <Statistics user={this.props.user} buildings={this.state.avalaibleBuildings}/>
                 <Shop user={this.props.user} buildings={this.state.avalaibleBuildings}/>    
+                <Stock user={this.props.user} buildings={this.state.avalaibleBuildings}/>    
             </section>
         );
     }

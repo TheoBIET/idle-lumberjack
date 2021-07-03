@@ -1,5 +1,6 @@
-const { User } = require('../models');
+const { User, Building } = require('../models');
 const bcrypt = require('bcrypt');
+const { sequelize } = require("../models/User");
 
 const userController = {
     handleLogin: async (req, res) => {
@@ -42,6 +43,7 @@ const userController = {
 
     handleSignup: async (req, res) => {
         const newUser = req.body;
+        const buildings = await Building.findAll();
 
         // We check if the minimum information is present in req.body.
         if (!newUser.username && !newUser.password) {
@@ -71,13 +73,21 @@ const userController = {
             password: hashedPassword
         })
 
-        // Before save, we check if the user has entered a personalized profile picture
+        // We check if the user has entered a personalized profile picture
         if (newUser.profile_picture_url) {
             userToBeInsert.profile_picture_url = newUser.profile_picture_url;
         }
 
         // And now, we can save
         await userToBeInsert.save();
+
+        // Create an instance of all buildings for the current user
+        for (const building of buildings) {
+            await sequelize.query(`
+                INSERT INTO "user_has_building"("user_id", "building_id", "actual_cost", "actual_value") VALUES
+                (${userToBeInsert.id}, ${building.id}, ${building.default_cost}, ${building.default_value});
+            `)
+        }
 
         return res.send({
             message: 'The user has successfully registered',
@@ -94,7 +104,7 @@ const userController = {
             include: ['buildings']
         });
 
-        if(!userIsFound) {
+        if (!userIsFound) {
             res.send('The username isn\'t correct');
         }
 
@@ -106,14 +116,14 @@ const userController = {
 
     saveUserStatus: async (req, res) => {
         const username = req.params.username;
-        const userIsFound = await User.findOne({username: username});
+        const userIsFound = await User.findOne({ username: username });
 
-        if(!userIsFound) {
+        if (!userIsFound) {
             res.send('The username isn\'t correct');
         }
 
         const newInformations = req.body;
-        
+
         await userIsFound.update({
             stock: newInformations.stock,
             number_of_clics: newInformations.number_of_clics,
@@ -121,7 +131,7 @@ const userController = {
             building_dps: newInformations.building_dps,
         });
 
-        res.status(200).send({message: 'Updated successfully'});
+        res.status(200).send({ message: 'Updated successfully' });
     },
 
     getLeaderboard: async (req, res) => {

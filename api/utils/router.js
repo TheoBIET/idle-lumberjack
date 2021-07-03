@@ -24,8 +24,8 @@ router
     // Get all buildings list
     .get('/api/building', gameController.getBuildingList)
 
-    // Buy building
-    .get('/api/:username/:buildingId/buy', gameController.buyBuilding)
+    // Get buy list for a user
+    .get('/api/:username/building', gameController.getBuyList)
 
     // Upgrade building
     .get('/api/:username/:buildingId/upgrade', gameController.upgradeBuilding)

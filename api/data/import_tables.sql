@@ -28,9 +28,10 @@ CREATE TABLE "building" (
 CREATE TABLE "user_has_building" (
   "user_id" INTEGER NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "building_id" INTEGER NOT NULL REFERENCES "building"("id") ON DELETE CASCADE,
-  "level" DECIMAL NOT NULL DEFAULT 1,
+  "level" DECIMAL NOT NULL DEFAULT 0,
   "actual_cost" DECIMAL NOT NULL,
   "actual_value" DECIMAL NOT NULL,
+  "is_user_buyed" BOOLEAN NOT NULL DEFAULT false,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
