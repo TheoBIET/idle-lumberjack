@@ -10,12 +10,12 @@ const gameController = {
 
     getBuyList: async (req, res) => {
         const user = await User.findOne({ where: { username: req.params.username } });
-        const buyingList = await user.getBuildings()
 
         if (!user) {
             return res.send({ message: 'The username isn\'t correct' });
         }
 
+        const buyingList = await sequelize.query(`SELECT * FROM "user_has_building" WHERE "user_id" = ${user.id} ORDER BY "building_id"`);
         res.send(buyingList);
     },
 
