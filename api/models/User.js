@@ -1,42 +1,45 @@
+const sequelize = require('../utils/database');
+const {DataTypes, Model} = require('sequelize');
 
-const mongoose = require('mongoose');
-const { GAME, SAWMILL, SILO } = require('../utils/constants');
-const Sawmill = require('./Sawmill');
-const Silo = require('./Silo');
+class User extends Model {}
 
-const defaultGame = {
-    stock: GAME.stock,
-    sawmill: new Sawmill(),
-    silo: new Silo(),
-    lastUpdate: Date.now()
-}
-
-const userSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    username: String,
-    email: String,
-    password: String,
-    profile_picture_url: { type: String, default: 'http://localhost:3000/api/img/default_avatar.jpg' },
-    game: {
-        type: {
-            stock: { type: Number, default: GAME.stock },
-            sawmill: {
-                type: {
-                    level: { type: Number, default: SAWMILL.LEVEL },
-                    yield: { type: Number, default: SAWMILL.YIELD },
-                    cost: { type: Number, default: SAWMILL.COST }
-                }, default: new Sawmill()
-            },
-            silo: {
-                type: {
-                    level: { type: Number, default: SILO.LEVEL },
-                    cost: { type: Number, default: SILO.COST },
-                    capacity: { type: Number, default: SILO.CAPACITY }
-                }, default: new Silo()
-            },
-            lastUpdate: { type: Date, default: Date.now() }
-        }, default: defaultGame
-    }
+User.init({
+  username: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  password: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  profile_picture_url: {
+    type: DataTypes.TEXT,
+    defaultValue: 'http://localhost:3000/api/img/default_avatar.jpg',
+    allowNull: false
+  },
+  stock: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
+  },
+  number_of_clics: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
+  },
+  clic_dps: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
+  },
+  building_dps: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
+  }
+}, {
+  sequelize,
+  tableName: 'user'
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = User;

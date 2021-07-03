@@ -3,16 +3,10 @@ import { Component } from "react";
 class Navbar extends Component {
     constructor(props) {
         super(props);
-        this.userIsConnected = this.userIsConnected.bind(this)
-        
         this.state = {
-            isConnected: false,
-            user: null
-        }
-    }
-
-    userIsConnected(user) {
-        this.setState({isConnected:true, user:user});
+            isConnected: this.props.isConnected,
+            user: this.props.user,
+        };
     }
 
     render() {
@@ -34,7 +28,9 @@ class Navbar extends Component {
                             <div className="navbar-end">
                                 <div className="navbar-item">
                                     <p>
-                                        Connecté en tant que {this.state.user.username}<strong></strong>
+                                        Connecté en tant que{" "}
+                                        {this.state.user.username}
+                                        <strong></strong>
                                     </p>
                                 </div>
                             </div>
@@ -44,12 +40,13 @@ class Navbar extends Component {
                             <div className="navbar-end">
                                 <div className="navbar-item">
                                     <div className="buttons">
-                                        <a
+                                        <div
                                             href="/"
                                             className="button is-danger"
+                                            onClick={this.props.onLogoutClick}
                                         >
                                             <strong>Se déconnecter</strong>
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -60,12 +57,18 @@ class Navbar extends Component {
                         <div className="navbar-end">
                             <div className="navbar-item">
                                 <div className="buttons">
-                                    <a href="/" className="button is-primary">
+                                    <div
+                                        className="button is-primary"
+                                        onClick={this.props.onSignupClick}
+                                    >
                                         <strong>S'inscrire</strong>
-                                    </a>
-                                    <a href="/" className="button is-light">
+                                    </div>
+                                    <div
+                                        className="button is-light"
+                                        onClick={this.props.onLoginClick}
+                                    >
                                         Se Connecter
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

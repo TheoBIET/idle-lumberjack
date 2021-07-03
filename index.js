@@ -3,10 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const sanitizer = require('sanitizer');
 const app = express();
-const router = require('./api/router');
-const PORT = process.env.PORT || 3003;
-const cors = require('cors')
-const mongoose = require('./api/utils/mongoose');
+const router = require('./api/utils/router');
+const PORT = process.env.PORT || 3004;
+const cors = require('cors');
 
 app
     .use(cors())
@@ -31,5 +30,4 @@ app
 
 app.listen(PORT, () => {
     console.log(`o\'dle started at http://localhost:${PORT}`);
-    mongoose.init();
 });

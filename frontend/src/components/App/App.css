@@ -10,12 +10,23 @@ main {
 }
 
 main > *{
+  height: 98%;
+}
+
+#leaderboard {
   max-width: 20%;
-  height: 80%;
 }
 
 #clickable-zone {
-  min-width: 50%;
+  width: 50%;
+}
+
+#game-actions {
+  width: 30%;
+}
+
+#game-actions > *{
+  width: 70%;
 }
 
 #clickable-zone .card {
@@ -23,13 +34,14 @@ main > *{
 }
 
 #clickable-zone .card img{
-  width: 40%;
+  width: 90%;
 }
 
 #clickable-zone .card img:hover{
   transform: scale(1.02);
   cursor: pointer;
 }
+
 
 #clickable-zone .card img:active{
   transform: scale(0.98);
