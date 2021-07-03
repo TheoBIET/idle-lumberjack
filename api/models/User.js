@@ -36,6 +36,11 @@ User.init({
     type: DataTypes.INTEGER,
     defaultValue: 0,
     allowNull: false
+  },
+  stock_capacity: {
+    type: DataTypes.INTEGER,
+    defaultValue: 100,
+    allowNull: false
   }
 }, {
   sequelize,

@@ -8,8 +8,12 @@ class Game extends Component {
                 class="flex column align-center full-width"
             >
                 <div className="card flex column align-center full-height">
-                    <h3 className="title is-5">Nombre de clics : <span className="title is-2">{this.props.nbOfClic}</span></h3>
-                    <img src="/wood.png" alt="aaa"/>
+                    <div>
+                        <p>Nombre de clics : <span>{this.props.user.number_of_clics}</span></p>
+                        <p>DPS Clic : <span>{this.props.user.clic_dps}</span></p>
+                        <p>DPS Bâtiments : <span>{this.props.user.building_dps}</span></p>
+                    </div>
+                    <img onClick={this.props.handleClick} src="/wood.png" alt="aaa"/>
                 </div>
             </section>
         );

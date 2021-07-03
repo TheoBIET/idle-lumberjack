@@ -70,7 +70,8 @@ const userController = {
         // We prepare the Sequelize instance to be inserted in the database
         const userToBeInsert = await User.build({
             username: newUser.username,
-            password: hashedPassword
+            password: hashedPassword,
+            clic_dps: 1
         })
 
         // We check if the user has entered a personalized profile picture
@@ -82,10 +83,12 @@ const userController = {
         await userToBeInsert.save();
 
         // Create an instance of all buildings for the current user
+        console.log(buildings);
         for (const building of buildings) {
+            console.log(building);
             await sequelize.query(`
-                INSERT INTO "user_has_building"("user_id", "building_id", "actual_cost", "actual_value") VALUES
-                (${userToBeInsert.id}, ${building.id}, ${building.default_cost}, ${building.default_value});
+                INSERT INTO "user_has_building"("user_id", "building_id", "building_name", "actual_cost", "actual_value") VALUES
+                (${userToBeInsert.id}, ${building.id}, '${building.name}', ${building.default_cost}, ${building.default_value});
             `)
         }
 
@@ -116,7 +119,7 @@ const userController = {
 
     saveUserStatus: async (req, res) => {
         const username = req.params.username;
-        const userIsFound = await User.findOne({ username: username });
+        const userIsFound = await User.findOne({ where:{username: username }});
 
         if (!userIsFound) {
             res.send('The username isn\'t correct');
@@ -125,10 +128,11 @@ const userController = {
         const newInformations = req.body;
 
         await userIsFound.update({
-            stock: newInformations.stock,
+            stock: parseInt(newInformations.stock, 10),
             number_of_clics: newInformations.number_of_clics,
             clic_dps: newInformations.clic_dps,
             building_dps: newInformations.building_dps,
+            stock_capacity: newInformations.stock_capacity
         });
 
         res.status(200).send({ message: 'Updated successfully' });

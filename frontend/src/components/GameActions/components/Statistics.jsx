@@ -14,7 +14,7 @@ class Statistics extends Component {
                         </li>
                         <li>
                             Nombre de clic :{" "}
-                            <strong>{this.props.user.building_dps}</strong>
+                            <strong>{this.props.user.number_of_clics}</strong>
                         </li>
                         <li>
                             Nombre de bâtiments :{" "}

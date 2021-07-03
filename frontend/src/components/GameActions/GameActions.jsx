@@ -17,20 +17,18 @@ class GameActions extends Component {
     }
 
     callAPI = async () => {
-        const url = 'http://localhost:3000/api/buildings';
+        const url = 'http://localhost:3003/api/building';
         const response = await axios.get(url);
         const data = await response.data;
         this.setState({avalaibleBuildings: data});
-        console.log(data);
     }
 
     render() {
-        console.log(this.props.user);
         return (
             <section id="game-actions" class="flex">
-                <Statistics user={this.props.user} buildings={this.state.avalaibleBuildings}/>
-                <Shop user={this.props.user} buildings={this.state.avalaibleBuildings}/>    
-                <Stock user={this.props.user} buildings={this.state.avalaibleBuildings}/>    
+                <Statistics user={this.props.user}/>
+                <Shop user={this.props.user} buildingsList={this.state.avalaibleBuildings} onSave={this.props.onSave}/>    
+                <Stock user={this.props.user}/>    
             </section>
         );
     }

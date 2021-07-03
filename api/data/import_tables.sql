@@ -6,8 +6,9 @@ CREATE TABLE "user" (
   "password" TEXT NOT NULL,
   "profile_picture_url" TEXT NOT NULL DEFAULT 'http://localhost:3000/api/img/default_avatar.jpg',
   "stock" INT NOT NULL DEFAULT 0,
+  "stock_capacity" INT NOT NULL DEFAULT 100,
   "number_of_clics" INT NOT NULL DEFAULT 0,
-  "clic_dps" DECIMAL NOT NULL DEFAULT 0,
+  "clic_dps" DECIMAL NOT NULL DEFAULT 1,
   "building_dps" DECIMAL NOT NULL DEFAULT 0,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -28,6 +29,7 @@ CREATE TABLE "building" (
 CREATE TABLE "user_has_building" (
   "user_id" INTEGER NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "building_id" INTEGER NOT NULL REFERENCES "building"("id") ON DELETE CASCADE,
+  "building_name" TEXT NOT NULL REFERENCES "building"("name") ON DELETE CASCADE,
   "level" DECIMAL NOT NULL DEFAULT 0,
   "actual_cost" DECIMAL NOT NULL,
   "actual_value" DECIMAL NOT NULL,
