@@ -10,33 +10,11 @@ const gameController = {
 
     getBuyList: async (req, res) => {
         const user = await User.findOne({ where: { username: req.params.username } });
-        const buildingsList = await Building.findAll();
+        const buyingList = await user.getBuildings()
 
         if (!user) {
             return res.send({ message: 'The username isn\'t correct' });
         }
-
-        const usersBuildingList = await user.getBuildings()
-
-        for (const building of buildingsList) {
-            // const buildInformations = {
-            //     id: building.id,
-            //     name: building.name,
-            //     cost
-            // }
-
-            const buildingFound = usersBuildingList.find(el => el === building.id);
-            if(buildingFound) {
-                building.isUserBuyed = true;
-            } else {
-                building.isUserBuyed = false;
-            }
-        }
-
-        buildingsList[0].isUserBuyed = false;
-        console.log(buildingsList[0].data);
-
-        const buyingList = []
 
         res.send(buyingList);
     },
