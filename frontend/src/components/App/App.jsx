@@ -22,37 +22,46 @@ class App extends Component {
             showLogoutConfirm: false,
             showCookieConfirm: false,
             cookieIsAccepted: false,
-            user_buildings: null
+            user_buildings: null,
         };
-    };
+    }
 
     componentDidMount() {
-        this.setState({ showCookieConfirm: true});
+        this.setState({ showCookieConfirm: true });
         document.querySelectorAll(".close-modal").forEach((el) => {
             el.addEventListener("click", this.closeModal);
         });
-    };
+    }
 
     async updateBuyList() {
-        const response = await axios.get(`http://localhost:3003/api/${this.state.user.username}/building`);
-        this.setState({user_buildings: response.data[0]})
+        const response = await axios.get(
+            `http://localhost:3003/api/${this.state.user.username}/building`
+        );
+        this.setState({ user_buildings: response.data[0] });
     }
 
     updateDPS() {
-        const buildingsList = this.state.user_buildings
+        const buildingsList = this.state.user_buildings;
         const buildingIdForClicDPS = 1;
-        const buildingForClicDPS = buildingsList.find(el => el.building_id === buildingIdForClicDPS);
-        const newClicDPS = parseInt(buildingForClicDPS.actual_value,10);
+        const buildingForClicDPS = buildingsList.find(
+            (el) => el.building_id === buildingIdForClicDPS
+        );
+        console.log(parseInt(buildingForClicDPS.actual_value, 10));
+        const newClicDPS = parseInt(buildingForClicDPS.actual_value, 10);
         let newBuildingDPS = 0;
 
         for (const building of buildingsList) {
-            if(building.is_user_buyed) {
-                newBuildingDPS = newBuildingDPS + parseInt(building.actual_value, 10);
+            if (building.is_user_buyed) {
+                newBuildingDPS =
+                    newBuildingDPS + parseInt(building.actual_value, 10);
             }
         }
-        newBuildingDPS = (newBuildingDPS - newClicDPS) - parseInt(this.state.user.stock_capacity, 10);
+        newBuildingDPS =
+            newBuildingDPS -
+            newClicDPS -
+            parseInt(this.state.user.stock_capacity, 10);
 
-        if(newBuildingDPS < 0) {
+        if (newBuildingDPS < 0) {
             newBuildingDPS = 0;
         }
 
@@ -60,43 +69,44 @@ class App extends Component {
             user: {
                 ...prevState.user,
                 clic_dps: newClicDPS,
-                building_dps: newBuildingDPS
-            },
-        }));
-    };
-
-    updateCapacity() {
-        const buildingsList = this.state.user_buildings
-        const siloID = 2;
-        const silo = buildingsList.find(el => el.building_id === siloID);
-        const newStockCapacity = parseInt(silo.actual_value,10);
-        this.setState((prevState) => ({
-            user: {
-                ...prevState.user,
-                stock_capacity: newStockCapacity
-            },
-        }));
-    };
-
-    updateStockEverySecond = () => {
-        const newStock = parseInt(this.state.user.stock, 10) + parseInt(this.state.user.building_dps, 10);
-        
-        if(newStock > this.state.user.stock_capacity) {
-            return this.setState((prevState) => ({
-                user: {
-                    ...prevState.user,
-                    stock: this.state.user.stock_capacity
-                },
-            }));
-        }
-
-        this.setState((prevState) => ({
-            user: {
-                ...prevState.user,
-                stock: newStock
+                building_dps: newBuildingDPS,
             },
         }));
     }
+
+    updateCapacity() {
+        const buildingsList = this.state.user_buildings;
+        const siloID = 2;
+        const silo = buildingsList.find((el) => el.building_id === siloID);
+        const newStockCapacity = parseInt(silo.actual_value, 10);
+        this.setState((prevState) => ({
+            user: {
+                ...prevState.user,
+                stock_capacity: newStockCapacity,
+            },
+        }));
+    }
+
+    updateStockEverySecond = () => {
+        const currentStock = parseFloat(this.state.user.stock, 10);
+        const toAdd = parseFloat(this.state.user.building_dps, 10);
+        const newStock = currentStock + toAdd;
+
+        if (newStock > this.state.user.stock_capacity) {
+            return this.setState((prevState) => ({
+                user: {
+                    ...prevState.user,
+                    stock: this.state.user.stock_capacity,
+                },
+            }));
+        }
+        this.setState((prevState) => ({
+            user: {
+                ...prevState.user,
+                stock: newStock,
+            },
+        }));
+    };
 
     handleCookieConfirm = () => {
         this.setState({ showCookieConfirm: false, cookieIsAccepted: true });
@@ -117,8 +127,8 @@ class App extends Component {
         const newStock = currentDPS + currentStock;
         const newClics = currentDPS + 1;
 
-        if(newStock > parseInt(this.state.user.stock_capacity, 10)) {
-            return
+        if (newStock > parseInt(this.state.user.stock_capacity, 10)) {
+            return;
         }
 
         this.setState((prevState) => ({
@@ -151,7 +161,7 @@ class App extends Component {
     onUserDisconnect = () => {
         this.saveUserStatus();
         this.setState({ isConnected: false, user: null });
-        clearInterval(this.interval)
+        clearInterval(this.interval);
     };
 
     onUserSignup = () => {
@@ -179,17 +189,28 @@ class App extends Component {
 
         await axios.post(url, params, config);
 
-        if(this.state.isConnected) {
+        if (this.state.isConnected) {
             this.getCurrentUserStatus();
         }
     };
 
     getCurrentUserStatus = async () => {
-        const response = await axios.get(`http://localhost:3003/api/${this.state.user.username}/status`);
+        const response = await axios.get(
+            `http://localhost:3003/api/${this.state.user.username}/status`
+        );
         const updatedUser = await response.data;
-        this.setState({user: updatedUser});
-        this.updateBuyList()
-    }
+        this.setState({ user: updatedUser });
+        this.updateBuyList();
+    };
+
+    onBuy = async (newStock) => {
+        this.setState((prevState) => ({
+            user: {
+                ...prevState.user,
+                stock: newStock,
+            },
+        }));
+    };
 
     render() {
         return (
@@ -232,8 +253,16 @@ class App extends Component {
                         />
                         <main>
                             <Leaderboard />
-                            <Game onSave={this.saveUserStatus} user={this.state.user} handleClick={this.handleClickOnGame} />
-                            <GameActions onSave={this.saveUserStatus} user={this.state.user} />
+                            <Game
+                                onSave={this.saveUserStatus}
+                                user={this.state.user}
+                                handleClick={this.handleClickOnGame}
+                            />
+                            <GameActions
+                                onBuy={this.onBuy}
+                                onSave={this.saveUserStatus}
+                                user={this.state.user}
+                            />
                         </main>
                     </>
                 ) : (

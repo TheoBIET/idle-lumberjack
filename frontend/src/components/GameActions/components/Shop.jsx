@@ -26,17 +26,27 @@ class Shop extends Component {
 
     handleUpgrade = async (event) => {
         await this.props.onSave();
-        const button = event.target.closest('.button');
-        button.classList.add('is-loading');
-        const buildId = button.attributes['data-id'].value
-        const price = button.attributes['data-price'].value
-        this.props.user.stock = parseInt((this.props.user.stock - price), 10);
-        await axios.get(`http://localhost:3003/api/${this.props.user.username}/${buildId}/upgrade`);
+
+        const button = event.target.closest(".button");
+        const buildId = button.attributes["data-id"].value;
+        const price = button.attributes["data-price"].value;
+
+        button.classList.add("is-loading");
+
+        if (price < this.props.user.stock) {
+            await axios.get(
+                `http://localhost:3003/api/${this.props.user.username}/${buildId}/upgrade`
+            );
+            this.props.onBuy(this.props.user.stock - price);
+        }
+
         const newState = await this.callAPI();
-        this.setState({buyList: newState})
-        button.classList.remove('is-loading');
+        this.setState({ buyList: newState });
+
+        button.classList.remove("is-loading");
+
         await this.props.onSave();
-    }
+    };
 
     makeButtons = (props) => {
         const rows = [];
@@ -73,7 +83,14 @@ class Shop extends Component {
                                 }
                             ></i>
                         </div>
-                        <div className="text">{building.is_user_buyed ? "(" + building.level + ") " + building.building_name : building.building_name}</div>
+                        <div className="text">
+                            {building.is_user_buyed
+                                ? "(" +
+                                  building.level +
+                                  ") " +
+                                  building.building_name
+                                : building.building_name}
+                        </div>
                         <div className="price">
                             {millify(building.actual_cost)}
                         </div>
@@ -100,7 +117,14 @@ class Shop extends Component {
                                 }
                             ></i>
                         </div>
-                        <div className="text">{building.is_user_buyed ? "(" + building.level + ") " + building.building_name : building.building_name}</div>
+                        <div className="text">
+                            {building.is_user_buyed
+                                ? "(" +
+                                  building.level +
+                                  ") " +
+                                  building.building_name
+                                : building.building_name}
+                        </div>
                         <div className="price">
                             {millify(building.actual_cost)}
                         </div>
@@ -119,10 +143,13 @@ class Shop extends Component {
                     Boutique&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <i class="fas fa-money-bill" style={{ color: "green" }}></i>
                     &nbsp;&nbsp;
-                    <strong class="title is-4"> {millify(this.props.user.stock)}</strong>
+                    <strong class="title is-4">
+                        {" "}
+                        {millify(this.props.user.stock)}
+                    </strong>
                 </p>
                 <div className="flex column">
-                    <ul>  
+                    <ul>
                         {" "}
                         <this.makeButtons
                             buildingsList={this.state.buildingsList}

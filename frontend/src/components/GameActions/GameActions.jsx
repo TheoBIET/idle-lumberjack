@@ -8,7 +8,7 @@ class GameActions extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            avalaibleBuildings: null
+            avalaibleBuildings: null,
         }
     }
 
@@ -23,11 +23,15 @@ class GameActions extends Component {
         this.setState({avalaibleBuildings: data});
     }
 
+    onBuy = async (price) => {
+        this.props.user.stock = price;
+    }
+
     render() {
         return (
             <section id="game-actions" class="flex">
                 <Statistics user={this.props.user}/>
-                <Shop user={this.props.user} buildingsList={this.state.avalaibleBuildings} onSave={this.props.onSave}/>    
+                <Shop onBuy={this.props.onBuy} user={this.props.user} buildingsList={this.state.avalaibleBuildings} onSave={this.props.onSave}/>    
                 <Stock user={this.props.user}/>    
             </section>
         );

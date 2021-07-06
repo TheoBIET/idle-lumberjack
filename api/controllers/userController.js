@@ -128,7 +128,7 @@ const userController = {
         const newInformations = req.body;
 
         await userIsFound.update({
-            stock: parseInt(newInformations.stock, 10),
+            stock: newInformations.stock,
             number_of_clics: newInformations.number_of_clics,
             clic_dps: newInformations.clic_dps,
             building_dps: newInformations.building_dps,

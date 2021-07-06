@@ -5,7 +5,7 @@ CREATE TABLE "user" (
   "username" TEXT NOT NULL UNIQUE,
   "password" TEXT NOT NULL,
   "profile_picture_url" TEXT NOT NULL DEFAULT 'http://localhost:3000/api/img/default_avatar.jpg',
-  "stock" INT NOT NULL DEFAULT 0,
+  "stock" DECIMAL NOT NULL DEFAULT 0,
   "stock_capacity" INT NOT NULL DEFAULT 100,
   "number_of_clics" INT NOT NULL DEFAULT 0,
   "clic_dps" DECIMAL NOT NULL DEFAULT 1,
