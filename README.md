@@ -5,16 +5,13 @@
 
 ## Informations 👀
 
-I'm going to sleep, maybe we'll see tomorrow 💤  
-... 💤  
-... 💤  
-... 💤
+Lumberjack Clicker is a small browser game based on the idle game principle such as Cookie Clicker, made from scratch as part of a project at o'Clock.
 
 ## Technologies 💻
 
 -   React
 -   Express
--   MongoDB
+-   PostgreSQL
 
 ## Local Installation 🏗️
 
@@ -25,11 +22,8 @@ I'm going to sleep, maybe we'll see tomorrow 💤
 ### Step by step 👣
 
 -   1 | Fork the repository https://github.com/TheoBIET/idle-game
--   2 | ....
--   3 | ....
--   4 | ....
--   5 | ....
--   6 | ....
--   7 | ....
--   8 | Add a star to this repository
--   9 | Enjoy! :)
+-   2 | Create a psql database (data in ./api/data)
+-   3 | `npm start`
+-   4 | In another terminal `cd frontend && npm start`
+-   5 | Add a star to this repository
+-   6 | Enjoy! :)
